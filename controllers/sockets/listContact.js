@@ -14,15 +14,16 @@ exports.listContact = async (socket, data) => {
   // console.log(roomFind);
 
   //main
-  roomFind.forEach((item) => {
+  roomFind.forEach(async (item) => {
     // console.log(item.memberIds);
     // item.memberIds.forEach((subItem)=>{
     //   console.log(subItem.name);
     // })
 
-    socket.join(item.id);
+    await socket.join(item.id);
   });
-
+  // console.log(socket.adapter.rooms);
+  // console.log(socket.id);
   //res
   socket.emit("list-contact-success", {
     message: "fetch thanh cong",

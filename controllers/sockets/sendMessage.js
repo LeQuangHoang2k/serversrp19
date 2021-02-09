@@ -12,7 +12,7 @@ exports.sendMessage = async (io, socket, data) => {
   // console.log("socket log : ");
   // console.log(message);
   // console.log(myInfo);
-  // console.log(myContact);
+  console.log(myContact);
 
   //check db
   console.log("input");

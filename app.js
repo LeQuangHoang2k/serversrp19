@@ -12,4 +12,9 @@ app.use("/account", require("./routers/account"));
 app.use("/user", require("./routers/user"));
 app.use("/auto", require("./routers/auto"));
 
+// app.use("test1/account", require("./routers/account"));
+// app.use("test1/user", require("./routers/user"));
+// app.use("test1/auto", require("./routers/auto"));
+
+
 module.exports = app;
