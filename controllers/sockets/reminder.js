@@ -1,16 +1,24 @@
-exports.reminder = (io, socket, data) => {
+const { calendarModel } = require("../../models/calendar.js");
+
+exports.reminder = async (io, socket, data) => {
   console.log("reminder.js:", data);
   //input
   if (!data) return;
-  const { user, currentContact } = data;
+  const { user, currentContact, content, datetime, repeat, term } = data;
+  console.log(data);
 
   //data
-
+  const calendarCreate = await calendarModel.create({
+    roomId: currentContact.id,
+    content,
+    datetime,
+    repeat,
+    term,
+  });
+  console.log(calendarCreate.datetime);
+  
   //main
 
   //res
-  // console.log("data",data);
-  // console.log(socket.adapter.rooms, typeof currentContact.id);
   io.in(currentContact.id).emit("reminder-success");
-  // io.sockets.emit("alo");
 };
