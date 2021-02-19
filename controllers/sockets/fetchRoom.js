@@ -1,17 +1,18 @@
 const { roomModel } = require("../../models/room");
 
-exports.listContact = async (socket, data) => {
-  console.log("listContact.js : ", data);
+exports.fetchRoom = async (socket, data) => {
+  console.log("fetchRoom.js : ", data);
 
   //input
-
+  console.log("data", data);
+  
   //db
   const roomFind = await roomModel
     .find({ memberIds: { $in: [data.userId] } })
     .populate("memberIds")
     .populate({ path: "lastMessageId", populate: "senderId" });
 
-  // console.log(roomFind);
+  console.log("roomFind",roomFind);
 
   //main
   roomFind.forEach(async (item) => {
@@ -24,8 +25,9 @@ exports.listContact = async (socket, data) => {
   });
   // console.log(socket.adapter.rooms);
   // console.log(socket.id);
+
   //res
-  socket.emit("list-contact-success", {
+  socket.emit("fetch-room-success", {
     message: "fetch thanh cong",
     room: roomFind,
   });

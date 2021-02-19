@@ -9,12 +9,12 @@ exports.createRoom = async (socket, data) => {
   let memberIds = [user.id];
   let nameOfRoom = user.name;
 
-  member.forEach((item) => {
-    memberIds.push(item.value);
+  member.forEach(async (item) => {
+    await memberIds.push(item.value);
     nameOfRoom = nameOfRoom + "," + item.label;
   });
 
-  memberIds = memberIds.sort();
+  memberIds = await memberIds.sort();
   console.log(memberIds);
   console.log("nameOfRoom", nameOfRoom);
 
@@ -31,4 +31,9 @@ exports.createRoom = async (socket, data) => {
   });
 
   //res
+  // socket.emit("update-room");
+  // socket.to(`${offerId}`).emit("update-room");
+  memberIds.forEach((item) => {
+    socket.to(`${item}`).emit("update-room");
+  });
 };

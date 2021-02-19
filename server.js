@@ -8,9 +8,11 @@ dotenv.config();
 const app = require("./app.js");
 const { connectUser } = require("./controllers/sockets/connectUser");
 const { sendMessage } = require("./controllers/sockets/sendMessage");
-const { listContact } = require("./controllers/sockets/listContact");
+const { fetchRoom } = require("./controllers/sockets/fetchRoom");
 const { createRoom } = require("./controllers/sockets/createRoom");
-const { reminder } = require("./controllers/sockets/reminder");
+const { addRoom } = require("./controllers/sockets/addRoom");
+const { createCalendar } = require("./controllers/sockets/createCalendar");
+const { joinNewRoom } = require("./controllers/sockets/joinNewRoom");
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -20,10 +22,14 @@ server.listen(process.env.PORT || 4000, () =>
 
 io.on("connection", async (socket) => {
   console.log("hello world from socketio", socket.id);
+  // socket.join(userId);
+  socket.on("join-my-id", (data) => socket.join(data.userId));
 
-  // socket.on("join-my-id", (data) => socket.join(data.userId));
+  // socket.on("join-new-room", (data) => joinNewRoom(io, socket, data));
 
-  socket.on("list-contact", (data) => listContact(socket, data));
+  socket.on("add-room", (data) => addRoom(io, socket, data));
+
+  socket.on("fetch-room", (data) => fetchRoom(socket, data));
 
   socket.on("connect-user", (data) => connectUser(socket, data));
 
@@ -31,5 +37,5 @@ io.on("connection", async (socket) => {
 
   socket.on("create-room", (data) => createRoom(socket, data));
 
-  socket.on("reminder", (data) => reminder(io, socket, data));
+  socket.on("create-calendar", (data) => createCalendar(io, socket, data));
 });

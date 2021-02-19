@@ -19,11 +19,13 @@ exports.listMessage = async (req, res) => {
   console.log("     [dbListMessage]");
 
   //main
-  const listMessage = await messageModel.find({
-    roomId: myContact.id,
-  });
-  console.log(listMessage);
-  
+  const listMessage = await messageModel
+    .find({
+      roomId: myContact.id,
+    })
+    .populate("senderId");
+  console.log("listMessage", listMessage);
+
   // const lastMessage = listMessage[listMessage.length - 1];
   // const { senderId, message } = lastMessage;
   // const senderFind = await userModel.findOne({ _id: senderId });

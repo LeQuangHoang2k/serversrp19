@@ -1,6 +1,6 @@
 const { calendarModel } = require("../../models/calendar.js");
 
-exports.reminder = async (io, socket, data) => {
+exports.createCalendar = async (io, socket, data) => {
   console.log("reminder.js:", data);
   //input
   if (!data) return;
@@ -20,5 +20,5 @@ exports.reminder = async (io, socket, data) => {
   //main
 
   //res
-  io.in(currentContact.id).emit("reminder-success");
+  io.in(currentContact.id).emit("create-calendar-success");
 };
