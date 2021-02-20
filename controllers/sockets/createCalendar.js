@@ -1,7 +1,8 @@
 const { calendarModel } = require("../../models/calendar.js");
 
 exports.createCalendar = async (io, socket, data) => {
-  console.log("reminder.js:", data);
+  console.log("createCalendar.js:", data);
+
   //input
   if (!data) return;
   const { user, currentContact, content, datetime, repeat, term } = data;
@@ -16,9 +17,12 @@ exports.createCalendar = async (io, socket, data) => {
     term,
   });
   console.log(calendarCreate.datetime);
-  
+
   //main
+  const calendarFetch = await calendarModel.find({
+    roomId: currentContact.id,
+  });
 
   //res
-  io.in(currentContact.id).emit("create-calendar-success");
+  io.in(currentContact.id).emit("fetch-calendar-success", { calendarFetch });
 };

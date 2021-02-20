@@ -5,14 +5,14 @@ exports.fetchRoom = async (socket, data) => {
 
   //input
   console.log("data", data);
-  
+
   //db
   const roomFind = await roomModel
     .find({ memberIds: { $in: [data.userId] } })
     .populate("memberIds")
     .populate({ path: "lastMessageId", populate: "senderId" });
 
-  console.log("roomFind",roomFind);
+  // console.log("roomFind",roomFind);
 
   //main
   roomFind.forEach(async (item) => {

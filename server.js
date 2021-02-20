@@ -11,8 +11,12 @@ const { sendMessage } = require("./controllers/sockets/sendMessage");
 const { fetchRoom } = require("./controllers/sockets/fetchRoom");
 const { createRoom } = require("./controllers/sockets/createRoom");
 const { addRoom } = require("./controllers/sockets/addRoom");
+// const { joinNewRoom } = require("./controllers/sockets/joinNewRoom");
 const { createCalendar } = require("./controllers/sockets/createCalendar");
-const { joinNewRoom } = require("./controllers/sockets/joinNewRoom");
+const { editCalendar } = require("./controllers/sockets/editCalendar");
+const { fetchCalendar } = require("./controllers/sockets/fetchCalendar");
+const { deleteCalendar } = require("./controllers/sockets/deleteCalendar");
+
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -38,4 +42,10 @@ io.on("connection", async (socket) => {
   socket.on("create-room", (data) => createRoom(socket, data));
 
   socket.on("create-calendar", (data) => createCalendar(io, socket, data));
+
+  socket.on("edit-calendar", (data) => editCalendar(io, socket, data));
+
+  socket.on("fetch-calendar", (data) => fetchCalendar(io, socket, data));
+
+  socket.on("delete-calendar", (data) => deleteCalendar(io, socket, data));
 });
