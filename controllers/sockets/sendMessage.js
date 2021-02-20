@@ -12,7 +12,7 @@ exports.sendMessage = async (io, socket, data) => {
   // console.log("socket log : ");
   // console.log(message);
   // console.log(myInfo);
-  console.log(myContact);
+  // console.log(myContact);
 
   //check db
   console.log("input");
@@ -21,7 +21,7 @@ exports.sendMessage = async (io, socket, data) => {
 
   //main
   //save mess
-  console.log("main");
+  // console.log("main");
 
   const messageSave = new messageModel({
     senderId: userFind.id,
@@ -30,7 +30,7 @@ exports.sendMessage = async (io, socket, data) => {
     isNewMessage: true,
   });
   await messageSave.save();
-  console.log("mess save");
+  // console.log("mess save");
 
   // save lastMessageId in _room
   const roomUpdate = await roomModel.findOneAndUpdate(
@@ -43,7 +43,14 @@ exports.sendMessage = async (io, socket, data) => {
   if (roomUpdate) console.log("room save");
   // const roomFind = await roomModel.findOne({ _id: myContact.id });
   // console.log("roomFind", roomFind);
+
   //res
   console.log("res");
-  io.in(myContact.id).emit("response-message", { lastMessage: messageSave });
+  const lastMessage = await messageModel
+    .findOne({
+      _id: messageSave._id,
+    })
+    .populate("senderId");
+  // console.log("lastMessage", lastMessage);
+  io.in(myContact.id).emit("response-message", { lastMessage });
 };

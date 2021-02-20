@@ -24,7 +24,7 @@ exports.listMessage = async (req, res) => {
       roomId: myContact.id,
     })
     .populate("senderId");
-  console.log("listMessage", listMessage);
+  // console.log("listMessage", listMessage);
 
   // const lastMessage = listMessage[listMessage.length - 1];
   // const { senderId, message } = lastMessage;
