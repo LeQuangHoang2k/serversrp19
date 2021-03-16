@@ -8,9 +8,12 @@ exports.fetchCalendar = async (io, socket, data) => {
   const { user, currentContact } = data;
 
   //db
-  const calendarFetch = await calendarModel.find({
-    roomId: currentContact.id,
-  });
+  const calendarFetch = await calendarModel.find(
+    {
+      roomId: currentContact.id,
+    },
+    (err, res) => console.error(err)
+  );
   console.log("calendarFetch", calendarFetch);
 
   //main
